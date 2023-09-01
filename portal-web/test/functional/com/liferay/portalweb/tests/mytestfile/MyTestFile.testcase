@@ -1,29 +1,30 @@
 @component-name = "portal-wcm"
 definition {
- 
-        property testray.main.component.name = "Web Content Administration";
-        
-        setUp {
-                TestCase.setUpPortalInstance();
 
-                User.firstLoginPG();
+	property testray.main.component.name = "Web Content Administration";
 
-                Navigator.openURL();
-        }
+	setUp {
+		TestCase.setUpPortalInstance();
 
-        @description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
-        @priority = 5
-        test AssertConfigurationSectionPresentInControlPanel {
-                task("Will open the application menu"){
-                        MyTestFile.clickMenu();
-                }
+		User.firstLoginPG();
 
-                task("Access the control panel option"){
-                        MyTestFile.clickControPanel();
-                }
+		Navigator.openURL();
+	}
 
-                task("Checking if the configuration option is in the control panel section"){
-                         MyTestFile.assertConfiguration();
-                }
-        }
+	@description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
+	@priority = 5
+	test AssertConfigurationSectionPresentInControlPanel {
+		task ("Will open the application menu") {
+			MyTestFile.clickMenu();
+		}
+
+		task ("Access the control panel option") {
+			MyTestFile.clickControPanel();
+		}
+
+		task ("Checking if the configuration option is in the control panel section") {
+			MyTestFile.assertConfiguration();
+		}
+	}
+
 }
