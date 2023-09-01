@@ -1,0 +1,12 @@
+definition {
+    
+    macro assertConfiguration {
+        AssertVisible(locator1 = "MyTestFile#CONFIGURATION");
+    }
+    macro clickControPanel {
+        Click(locator1 = "MyTestFile#BUTTON_CONTROL_PANEL");
+    }
+    macro clickMenu {
+        Click(locator1 = "MyTestFile#BUTTON_MENU");
+    }
+}
