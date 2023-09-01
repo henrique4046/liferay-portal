@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>MyTestFile</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">MyTestFile</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>BUTTON_MENU</td>
+	<td>//button[contains(@data-qa-id, 'applicationsMenu')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>BUTTON_CONTROL_PANEL</td>
+	<td>//*[text()='Control Panel']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONFIGURATION</td>
+	<td>//h2[text()='Configuration']</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
