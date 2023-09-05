@@ -1,0 +1,30 @@
+@component-name = "portal-web-forms-and-data-lists"
+definition {
+
+	property testray.main.component.name = "Forms";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		Navigator.openURL();
+	}
+
+	@description = "Access Portal Global Menu and validate CONFIGURATION string at Control Panel"
+	@priority = 5
+	test ValidateConfigurationStringAtControlPanel {
+		task ("Will open the application menu") {
+			Click(locator1 = "//button[contains(@data-qa-id, 'applicationsMenu')]");
+		}
+
+		task ("Access the control panel option") {
+			Click(locator1 = "//*[text()='Control Panel']");
+		}
+
+		task ("Checking if the configuration option is in the control panel section") {
+			AssertVisible(locator1 = "//h2[text()='Configuration']");
+		}
+	}
+
+}
