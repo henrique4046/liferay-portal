@@ -1,0 +1,123 @@
+@component-name = "portal-web-forms-and-data-lists"
+definition {
+
+	property testray.main.component.name = "Forms";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if (${testPortalInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Navigator.openURL();
+
+			ProductMenu.gotoPortlet(
+				category = "Content & Data",
+				portlet = "Forms");
+
+			FormsAdmin.teardownForms();
+
+			PagesAdmin.tearDownCP();
+		}
+	}
+
+	@description = "Verify that a form can be submited with fields in two different languages"
+	@priority = 5
+	test CheckIsPossibleSubmitFormWithTwoDifferentLanguages {
+		task ("Add a form with a text field defined as Full Name") {
+			FormsAdmin.addForm();
+
+			Form.editName(formName = "New Forms");
+
+			Form.gotoAddField(
+				fieldPositionNumber = 0,
+				fieldType = "Text");
+
+			Form.editFieldLabelMetal(fieldValue = "Full Name");
+
+			Form.closeSidebar();
+		}
+
+		task ("Add a numerical field defined as Age") {
+			Form.gotoAddField(
+				fieldPositionNumber = 1,
+				fieldType = "Numeric");
+
+			Form.editFieldLabelMetal(fieldValue = "Age");
+		}
+
+		task ("Adds a new translation for the form (portuguese) and edit full name to Nome Completo and age to Idade") {
+			Form.addTranslation(localizedLanguage = "Portuguese (Brazil)");
+
+			FormViewBuilder.editFieldLabel(
+				fieldLabel = "Full Name",
+				label = "Nome Completo");
+
+			FormViewBuilder.editFieldLabel(
+				fieldLabel = "Age",
+				label = "Idade");
+		}
+
+		task ("Publish, save and navigate to the form") {
+			FormPortlet.submitSuccessfully();
+
+			FormsAdminNavigator.gotoPublishedForm();
+		}
+
+		task ("Edit published form to add values for the fields (Full Name) and (Age)") {
+			FormViewBuilder.editText(
+				fieldName = "Full Name",
+				fieldValue = "Jose Henrique Santos de Lima");
+
+			FormViewBuilder.editText(
+				fieldName = "Age",
+				fieldValue = 23);
+
+			FormPortlet.submitSuccessfully();
+		}
+
+		task ("Change the language to portuguese, add new values and submit again") {
+			FormViewBuilder.changeAppLanguageTo(changeAppLanguageTo = "en-US");
+
+			FormViewBuilder.changeAppLanguageTo(changeAppLanguageTo = "português-Brasil");
+
+			FormViewBuilder.editText(
+				fieldName = "Nome Completo",
+				fieldValue = "Lucas Falcao");
+
+			FormViewBuilder.editText(
+				fieldName = "Idade",
+				fieldValue = 55);
+
+			FormPortlet.submitSuccessfully();
+		}
+
+		task ("Navigate to portal and go to forms") {
+			Navigator.openURL();
+
+			ProductMenu.gotoPortlet(
+				category = "Content & Data",
+				portlet = "Forms");
+		}
+
+		task ("Check if the entries are present with the correct values") {
+			FormsAdminNavigator.gotoViewEntries();
+
+			LexiconEntry.viewEntryContent(
+				key_rowAny = "Lucas Falcao",
+				key_rowEntry = 55);
+
+			LexiconEntry.viewEntryContent(
+				key_rowAny = "Jose Henrique Santos de lima",
+				key_rowEntry = 23);
+		}
+	}
+
+}
