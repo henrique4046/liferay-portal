@@ -1,0 +1,76 @@
+@component-name = "portal-document-management"
+definition {
+
+	property testray.main.component.name = "Document Management";
+
+	setUp {
+		task ("Given DM Portlet is added to the page") {
+			TestCase.setUpPortalInstance();
+
+			User.firstLoginPG();
+
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page");
+
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page",
+				widgetName = "Documents and Media");
+
+			Navigator.gotoPage(pageName = "DM Henrique Page");
+
+			ProductMenu.gotoPortlet(
+				category = "Content & Data",
+				portlet = "Documents and Media");
+		}
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if (${testPortalInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			JSONLayout.deletePublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page");
+
+			User.logoutPG();
+		}
+	}
+
+	@description = "Can Download a Documents and Media"
+	@priority = 4
+	test CanDownloadDM {
+		task ("AND create 2 Documents and Media (Upload the file)") {
+			DMDocument.addCP(
+				dmDocumentFile = "Document_3.txt",
+				dmDocumentTitle = "DM1 Test");
+
+			DMDocument.addCP(
+				dmDocumentFile = "Document_4.txt",
+				dmDocumentTitle = "DM2 Test");
+
+			Alert.viewSuccessMessageText(successMessage = "Your request completed successfully.");
+		}
+
+		task ("When the user download document from DMTest1") {
+			DMDocument.downloadCP(
+				dmDocumentSize = "779 B",
+				dmDocumentTitle = "DM1 Test");
+		}
+
+		task ("Then the file that was downloaded must be from DMTest1") {
+			DMDocument.assertFileNameFromTempFolder(fileName = "Document_3.txt");
+		}
+
+		task ("And DMTest2 file should not be downloaded") {
+			DMDocument.assertNoFileNameFromTempFolder(fileName = "Document_4.txt");
+		}
+	}
+
+}
