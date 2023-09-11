@@ -1,0 +1,73 @@
+@component-name = "portal-document-management"
+definition {
+
+	property testray.main.component.name = "Document Management";
+
+	setUp {
+		task ("Given DM Portlet is added to the page") {
+			TestCase.setUpPortalInstance();
+
+			User.firstLoginPG();
+
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page");
+
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page",
+				widgetName = "Documents and Media");
+
+			Navigator.gotoPage(pageName = "DM Henrique Page");
+
+			ProductMenu.gotoPortlet(
+				category = "Content & Data",
+				portlet = "Documents and Media");
+		}
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if (${testPortalInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			JSONLayout.deletePublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page");
+
+			User.logoutPG();
+		}
+	}
+
+	@description = "Can Edit a Documents and Media"
+	@priority = 5
+	test CanEditDM {
+		task ("AND create a Document and Media (Upload the file)") {
+			DMDocument.addCP(
+				dmDocumentFile = "Document_3.txt",
+				dmDocumentTitle = "DM1 Test");
+
+			Alert.viewSuccessMessageText(successMessage = "Your request completed successfully.");
+		}
+
+		task ("When the User edits the Documents and Media (Change DM name and the file)") {
+			DMDocument.editCP(
+				dmDocumentFileEdit = "Document_3.txt",
+				dmDocumentTitle = "DM1 Test",
+				dmDocumentTitleEdit = "DM Edited Test");
+
+			Alert.viewSuccessMessageText(successMessage = "Your request completed successfully.");
+		}
+
+		task ("Then the Documents and Media should be edited") {
+			AssertElementPresent(
+				key_rowEntry = "DM Edited Test",
+				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME");
+		}
+	}
+
+}
