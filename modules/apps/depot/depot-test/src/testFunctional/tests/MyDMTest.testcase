@@ -1,0 +1,78 @@
+@component-name = "portal-document-management"
+definition {
+
+	property testray.main.component.name = "Document Management";
+
+	setUp {
+		task ("Given DM Portlet is added to the page") {
+			TestCase.setUpPortalInstance();
+
+			User.firstLoginPG();
+
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page");
+
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page",
+				widgetName = "Documents and Media");
+
+			Navigator.gotoPage(pageName = "DM Henrique Page");
+
+			ProductMenu.gotoPortlet(
+				category = "Content & Data",
+				portlet = "Documents and Media");
+		}
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if (${testPortalInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			JSONLayout.deletePublicLayout(
+				groupName = "Guest",
+				layoutName = "DM Henrique Page");
+
+			User.logoutPG();
+		}
+	}
+
+	@description = "Can Delete a Documents and Media"
+	@priority = 5
+	test CanDeleteDM {
+		task ("AND create 2 Documents and Media (Upload the file)") {
+			DMDocument.addCP(
+				dmDocumentFile = "Document_3.txt",
+				dmDocumentTitle = "DM1 Test");
+
+			DMDocument.addCP(
+				dmDocumentFile = "Document_4.txt",
+				dmDocumentTitle = "DM2 Test");
+
+			Alert.viewSuccessMessageText(successMessage = "Your request completed successfully.");
+		}
+
+		task ("When the User delete a document and media") {
+			DMDocument.deleteCP(dmDocumentTitle = "DM1 Test");
+		}
+
+		task ("Then DMTest 1 should not exist") {
+			AssertElementNotPresent(
+				key_rowEntry = "DM1 Test",
+				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME");
+		}
+
+		task ("AND DMTest 2 should exist") {
+			AssertElementPresent(
+				key_rowEntry = "DM2 Test",
+				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME");
+		}
+	}
+
+}
