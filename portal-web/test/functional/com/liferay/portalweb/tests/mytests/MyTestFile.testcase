@@ -1,0 +1,44 @@
+@component-name = "portal-web-forms-and-data-lists"
+definition {
+
+	property testray.main.component.name = "Forms";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	@description = "Set Screen size to custom and validate values"
+	@priority = 5
+	test CanDefineDXPCustomScreenSize {
+		Click(locator1 = "//button[@data-qa-id='simulation']");
+
+		Click(locator1 = "//span[text()='Custom']");
+
+		Type.sendKeys(
+			locator1 = "//input[contains(@id,'width')]",
+			value1 = "keys=CONTROL,a");
+
+		Type.sendKeys(
+			locator1 = "//input[contains(@id,'width')]",
+			value1 = 1920);
+
+		Type.sendKeys(
+			locator1 = "//input[contains(@id,'height')]",
+			value1 = "keys=CONTROL,a");
+
+		Type.sendKeys(
+			locator1 = "//input[contains(@id,'height')]",
+			value1 = 1080);
+
+		Click(locator1 = "//button[@aria-label='Apply Custom Size']");
+
+		Click(locator1 = "//button[contains(@class,'btn btn-monospaced') and @aria-label='Close']");
+
+		Click(locator1 = "//button[@data-qa-id='simulation']");
+
+		AssertElementPresent(locator1 = "//div[text()='Custom Size 1080x1920 Applied']");
+	}
+
+}
