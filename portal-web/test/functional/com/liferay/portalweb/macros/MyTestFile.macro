@@ -1,11 +1,5 @@
 definition {
 
-	macro ValidateScreenSizeValue {
-		AssertElementPresent(
-			key_customSizeValue = "${customSizeValue}",
-			locator1 = "MyTestFile#SCREEN_SIZE_VALUE");
-	}
-
 	macro CloseSimulationMenu {
 		Click(locator1 = "MyTestFile#CLOSE_BUTTON");
 	}
@@ -34,6 +28,12 @@ definition {
 			value1 = ${customWidth});
 
 		Click(locator1 = "MyTestFile#APPLY_CUSTOM_SIZE");
+	}
+
+	macro ValidateScreenSizeValue {
+		AssertElementPresent(
+			key_customSizeValue = ${customSizeValue},
+			locator1 = "MyTestFile#SCREEN_SIZE_VALUE");
 	}
 
 }

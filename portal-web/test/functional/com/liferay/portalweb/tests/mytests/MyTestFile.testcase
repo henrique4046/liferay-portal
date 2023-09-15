@@ -22,9 +22,7 @@ definition {
 
 		MyTestFile.OpenSimulationMenu();
 
-		MyTestFile.ValidateScreenSizeValue(
-			customSizeValue = "1080x1920"
-		);
+		MyTestFile.ValidateScreenSizeValue(customSizeValue = "1080x1920");
 	}
 
 }
