@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>MyTestFile</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">MyTestFile</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>CLOSE_BUTTON</td>
+	<td>//button[contains(@class,'btn btn-monospaced') and @aria-label='Close']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CUSTOM_OPTION</td>
+	<td>//span[text()='Custom']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>APPLY_CUSTOM_SIZE</td>
+	<td>//button[@aria-label='Apply Custom Size']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>HEIGHT_FIELD</td>
+	<td>//input[contains(@id,'height')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>WIDTH_FIELD</td>
+	<td>//input[contains(@id,'width')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SIMULATION_BUTTON</td>
+	<td>//button[@data-qa-id='simulation']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCREEN_SIZE_VALUE</td>
+	<td>//div[text()='Custom Size ${key_customSizeValue} Applied']</td>
+	<td></td>
+</tr>
+
+</tbody>
+</table>
+</body>
+</html>
