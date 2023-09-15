@@ -1,0 +1,30 @@
+@component-name = "portal-web-forms-and-data-lists"
+definition {
+
+	property testray.main.component.name = "Forms";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	@description = "Set Screen size to custom and validate values"
+	@priority = 5
+	test CanDefineDXPCustomScreenSize {
+		MyTestFile.OpenSimulationMenu();
+
+		MyTestFile.SetCustomScreenSize(
+			customHeight = 1080,
+			customWidth = 1920);
+
+		MyTestFile.CloseSimulationMenu();
+
+		MyTestFile.OpenSimulationMenu();
+
+		MyTestFile.ValidateScreenSizeValue(
+			customSizeValue = "1080x1920"
+		);
+	}
+
+}
